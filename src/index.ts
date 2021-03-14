@@ -16,7 +16,9 @@ export const Bot = new Twit({
 	//timeout_ms: 60 * 1000,
 })
 
-app.get('/', (req, res) => res.send(QuoteService.popQuote()))
+app.get('/', (req, res) => res.send(
+	QuoteService.popQuote())
+)
 app.listen(PORT, () => {
   console.log(`[server]: Server is running at https://localhost:${PORT}`);
 });
