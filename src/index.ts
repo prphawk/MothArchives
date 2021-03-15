@@ -17,12 +17,11 @@ export const Bot = new Twit({
 })
 
 app.get('/', (req, res) => {
+	console.log('-- ping! at ' + new Date().getDate().toString())
 	return res.send(
 		ScheduleService.isItTime ? 
 		'QuoteService.popQuote()' : 
 		'Not Time Yet!')
 })
 
-app.listen(PORT, () => {
-  console.log(`[server]: Server is running at https://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`[server]: Server is running at PORT: ${PORT}`))
