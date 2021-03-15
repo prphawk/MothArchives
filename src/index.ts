@@ -2,6 +2,7 @@ import express from 'express'
 import Dotenv from 'dotenv'
 import Twit from 'twit'
 import ScheduleService from './services/ScheduleService'
+import QuoteService from './services/QuoteService'
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -13,14 +14,12 @@ export const Bot = new Twit({
 	consumer_secret: process.env.CONSUMER_SECRET,
 	access_token: process.env.ACCESS_TOKEN,
 	access_token_secret: process.env.ACCESS_TOKEN_SECRET,
-	//timeout_ms: 60 * 1000,
 })
 
 app.get('/', (req, res) => {
-	console.log('-> Ping! at ' + new Date())
 	return res.send(
 		ScheduleService.isItTime ? 
-		'QuoteService.popQuote()' : 
+		QuoteService.popQuote() : 
 		'Not Time Yet!')
 })
 
