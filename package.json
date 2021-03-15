@@ -6,21 +6,21 @@
   "scripts": {
     "prestart": "yarn tsc",
     "start": "node .",
-    "build": "tsc",
+    "build": "yarn tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/superagent": "^4.1.10",
-    "@types/twit": "^2.2.28",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "superagent": "^6.1.0",
     "twit": "^2.2.11"
   },
   "devDependencies": {
+    "@types/superagent": "^4.1.10",
+    "@types/twit": "^2.2.28",
     "@types/express": "^4.17.11",
     "@types/node": "^14.14.34",
     "ts-node": "^9.1.1",

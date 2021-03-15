@@ -20,7 +20,7 @@ export const Bot = new Twit({
 app.get('/', (req, res) => {
 	return res.send(
 		ScheduleService.isItTime ? 
-		QuoteService.popQuote() : 
+		'QuoteService.popQuote()' : 
 		'Not Time Yet!')
 })
 
