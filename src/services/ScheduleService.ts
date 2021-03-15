@@ -25,6 +25,6 @@ export default class ScheduleService {
 
   static setSchedule = (newSchedule: number[] ) => {
     ScheduleService.HOURS_TO_POST = newSchedule
-    return `-> New Schedule: ${ScheduleService.HOURS_TO_POST}`)
+    return `-> New Schedule: ${ScheduleService.HOURS_TO_POST}`
   }
 }
