@@ -8,6 +8,9 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 Dotenv.config();
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 /* Configure the Twitter API */
 export const Bot = new Twit({
 	consumer_key: process.env.CONSUMER_KEY,
@@ -21,6 +24,12 @@ app.get('/', (req, res) => {
 		ScheduleService.isItTime ? 
 		QuoteService.popQuote() : 
 		'Not Time Yet!')
+})
+
+
+app.post('/schedule/', (req, res) => {
+	const body : number[] = req.body
+	return res.send(ScheduleService.setSchedule(body))
 })
 
 app.listen(PORT, () => console.log(`\n-> Server is running at PORT: ${PORT}`))
