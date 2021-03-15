@@ -1,9 +1,8 @@
 import express from 'express'
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 import Dotenv from 'dotenv'
 import Twit from 'twit'
-import QuoteService from './services/QuoteService'
 import ScheduleService from './services/ScheduleService'
 
 Dotenv.config();
