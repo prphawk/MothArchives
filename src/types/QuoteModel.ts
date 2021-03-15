@@ -1,8 +1,11 @@
-export default interface QuoteModel {
+interface TextModel {
   id: number,
   text: string,
+}
+
+export default interface QuoteModel extends TextModel{
   source?: string,
-  replies: string[]
+  replies: TextModel[]
 }
 
 

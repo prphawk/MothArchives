@@ -23,7 +23,7 @@ export default class QuoteService {
 		const thread = [quote.text]
 
 		if(quote.replies.length > 0) {
-			thread.push(...quote.replies)
+			thread.push(...quote.replies.map(r => r.text))
 		}
 
 		if(quote.source) {

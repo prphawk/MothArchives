@@ -1,6 +1,6 @@
 export default class ScheduleService {
 
-  private static HOURS_TO_POST = [19, 20] //GMT +00:00, conversão pra BR é -3 
+  private static HOURS_TO_POST = [20] //GMT +00:00, conversão pra BR é -3 
   private static day = new Date().getDay() 
   private static schedule = ScheduleService.HOURS_TO_POST
 
