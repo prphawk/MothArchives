@@ -4,6 +4,7 @@ const PORT = 8000;
 import Dotenv from 'dotenv'
 import Twit from 'twit'
 import QuoteService from './services/QuoteService'
+import ScheduleService from './services/ScheduleService'
 
 Dotenv.config();
 
@@ -16,9 +17,13 @@ export const Bot = new Twit({
 	//timeout_ms: 60 * 1000,
 })
 
-app.get('/', (req, res) => res.send(
-	QuoteService.popQuote())
-)
+app.get('/', (req, res) => {
+	return res.send(
+		ScheduleService.isItTime ? 
+		QuoteService.popQuote() : 
+		'Not Time Yet!')
+})
+
 app.listen(PORT, () => {
   console.log(`[server]: Server is running at https://localhost:${PORT}`);
 });

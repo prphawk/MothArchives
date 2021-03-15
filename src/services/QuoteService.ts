@@ -13,7 +13,7 @@ export default class QuoteService {
 				const quote = res.body as QuoteResponseModel
 				const thread = QuoteService.getThread(quote)
 				QuoteService.tweetThread(thread)
-			} 
+			}
 			return err
 		})
 	}
@@ -42,8 +42,11 @@ export default class QuoteService {
 				in_reply_to_status_id,
 				//auto_populate_reply_metadata: true  
 			}, (err, data: Twitter.Status, response) => {
-				if(err) return console.log(err)
-				console.log(`-> Tweeted: ${data.full_text}`)
+				if(err) {
+					console.log('-> ERR:' + head) 
+					return console.log(err)
+				}
+				console.log(`-> Tweeted: ${data.full_text || data.text}`)
 				QuoteService.tweetThread(tail, data.id_str)
 			})
 		}
