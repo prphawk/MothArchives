@@ -1,10 +1,10 @@
 import express from 'express'
-const app = express();
-const PORT = process.env.PORT || 8000;
 import Dotenv from 'dotenv'
 import Twit from 'twit'
 import ScheduleService from './services/ScheduleService'
 
+const app = express();
+const PORT = process.env.PORT || 8000;
 Dotenv.config();
 
 /* Configure the Twitter API */
@@ -17,11 +17,11 @@ export const Bot = new Twit({
 })
 
 app.get('/', (req, res) => {
-	console.log('-- ping! at ' + new Date().getDate().toString())
+	console.log('-> Ping! at ' + new Date())
 	return res.send(
 		ScheduleService.isItTime ? 
 		'QuoteService.popQuote()' : 
 		'Not Time Yet!')
 })
 
-app.listen(PORT, () => console.log(`[server]: Server is running at PORT: ${PORT}`))
+app.listen(PORT, () => console.log(`\n-> Server is running at PORT: ${PORT}`))
