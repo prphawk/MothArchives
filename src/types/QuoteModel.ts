@@ -1,4 +1,4 @@
-export default interface QuoteResponseModel {
+export default interface QuoteModel {
   id: number,
   text: string,
   source?: string,

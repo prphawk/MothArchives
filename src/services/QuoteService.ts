@@ -1,28 +1,28 @@
 import { Twitter } from 'twit'
 import superagent from 'superagent'
-import QuoteResponseModel from '../types/QuoteModel'
+import QuoteModel from '../types/QuoteModel'
 import { Bot } from '../index'
 
 export default class QuoteService {
 
 	static popQuote = () => {
-		return superagent.get(`${process.env.API_URL}/deque/`)
+		return superagent.get(process.env.API_URL_POP_QUOTE)
+		//alguma segurança aqui -> .set('Accept', 'application/json')
 		.set('Accept', 'application/json')
 		.end((err, res) => {
 			if (res.ok) {
-				const quote = res.body as QuoteResponseModel
+				const quote = res.body as QuoteModel
 				const thread = QuoteService.getThread(quote)
 				QuoteService.tweetThread(thread)
-			}
-			return err
+			} else return err
 		})
 	}
 
-	private static getThread = (quote: QuoteResponseModel): string[] => {
+	private static getThread = (quote: QuoteModel): string[] => {
 
 		const thread = [quote.text]
 
-		if(QuoteService.isNotEmpty(quote.replies)) {
+		if(quote.replies.length > 0) {
 			thread.push(...quote.replies)
 		}
 
@@ -34,25 +34,21 @@ export default class QuoteService {
 	}
 
 	private static tweetThread = (thread: string[], in_reply_to_status_id?: string) => {
-		if(QuoteService.isNotEmpty(thread)) {
+		if(thread.length > 0) {
 			const [head, ...tail] = thread;
 			
 			Bot.post('statuses/update', { 
 				status: head,
 				in_reply_to_status_id,
 				//auto_populate_reply_metadata: true  
-			}, (err, data: Twitter.Status, response) => {
+			}, (err, data: Twitter.Status, res) => {
 				if(err) {
 					console.log('-> ERR:' + head) 
-					return console.log(err)
+					return console.error(err)
 				}
 				console.log(`-> Tweeted: ${data.full_text || data.text}`)
 				QuoteService.tweetThread(tail, data.id_str)
 			})
 		}
 	}
-
-	private static isNotEmpty<T>(arr: Array<T>) {
-		return arr.length > 0
-	}  
 }
