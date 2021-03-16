@@ -1,6 +1,6 @@
 import { Twitter } from 'twit'
 import superagent from 'superagent'
-import QuoteModel from '../types/QuoteModel'
+import QuoteDataModel from '../types/QuoteModel'
 import { Bot } from '../index'
 
 export default class QuoteService {
@@ -11,15 +11,14 @@ export default class QuoteService {
 		.set('Accept', 'application/json')
 		.end((err, res) => {
 			if (res.ok) {
-				const quote = res.body as QuoteModel
-				const thread = QuoteService.getThread(quote)
+				const thread = QuoteService.getThread(res.body)
 				QuoteService.tweetThread(thread)
 				return 'Popped!'
 			} else return err
 		})
 	}
 
-	private static getThread = (quote: QuoteModel): string[] => {
+	private static getThread = (quote: QuoteDataModel): string[] => {
 
 		const thread = [quote.text]
 

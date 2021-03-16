@@ -23,7 +23,7 @@ export default class ScheduleService {
     }
   }
 
-  static getSchedule = () => `-> Schedule: ${ScheduleService.schedule} (GMT +00:00)`
+  static getSchedule = () => `-> Today's Schedule: ${ScheduleService.schedule} (GMT +00:00)`
 
   static setSchedule = (newSchedule: number[] ) => {
     ScheduleService.HOURS_TO_POST = newSchedule

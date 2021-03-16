@@ -1,11 +1,11 @@
-interface TextModel {
+interface DataModel {
   id: number,
   text: string,
 }
 
-export default interface QuoteModel extends TextModel{
+export default interface QuoteDataModel extends DataModel{
   source?: string,
-  replies: TextModel[]
+  replies: DataModel[]
 }
 
 
