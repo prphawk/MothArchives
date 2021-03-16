@@ -14,6 +14,7 @@ export default class QuoteService {
 				const quote = res.body as QuoteModel
 				const thread = QuoteService.getThread(quote)
 				QuoteService.tweetThread(thread)
+				return 'Popped!'
 			} else return err
 		})
 	}
@@ -27,7 +28,7 @@ export default class QuoteService {
 		}
 
 		if(quote.source) {
-			thread.push(quote.source)
+			thread.push("→ " + quote.source)
 		}
 
 		return thread
