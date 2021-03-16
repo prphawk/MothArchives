@@ -26,6 +26,9 @@ app.get('/', (req, res) => {
 		'Not Time Yet!')
 })
 
+app.get('/schedule/', (req, res) => {
+	return res.send(ScheduleService.getSchedule())
+})
 
 app.post('/schedule/', (req, res) => {
 	const body : number[] = req.body

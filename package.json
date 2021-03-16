@@ -1,16 +1,27 @@
 {
   "name": "motharchives",
   "version": "1.0.0",
-  "description": "",
+  "description": "Twitter Quote Bot",
   "main": "dist/index.js",
+  
   "scripts": {
     "prestart": "yarn tsc",
     "start": "node .",
     "build": "yarn tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "twitter", 
+    "bot", 
+    "quote bot", 
+    "twitter api", 
+    "node js", 
+    "typescript"
+  ],
+  "author": {
+    "name": "Mayra Camargo Cademartori",
+    "url": "https://github.com/prphawk"
+  },
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
