@@ -11,9 +11,10 @@ export default class QuoteService {
 		.set('Accept', 'application/json')
 		.end((err, res) => {
 			if (res.ok) {
-				const thread = QuoteService.getThread(res.body)
-				QuoteService.tweetThread(thread)
-				return 'Popped!'
+				if( res.status === 200) {
+					const thread = QuoteService.getThread(res.body)
+					QuoteService.tweetThread(thread)
+				} else console.error(`-> ERROR APP REQ API; STATUS ${res.status}`)
 			} else return err
 		})
 	}
@@ -21,6 +22,8 @@ export default class QuoteService {
 	private static getThread = (quote: QuoteDataModel): string[] => {
 
 		const thread = [quote.text]
+
+		console.log(quote)
 
 		if(quote.replies.length > 0) {
 			thread.push(...quote.replies.map(r => r.text))

@@ -1,13 +1,18 @@
+import fs from 'fs'
+
 export default class ScheduleService {
 
-  private static HOURS_TO_POST = [20] //GMT +00:00, conversão pra BR é -3 
+  private static dataDir = 'src/data/ScheduleData.json'
   private static day = new Date().getDay() 
-  private static schedule = ScheduleService.HOURS_TO_POST
+  private static schedule = []
 
   static get isItTime () {
+
     const date = new Date()
     ScheduleService.resetDay(date)
+
     const index = ScheduleService.schedule.findIndex(e => date.getHours() === e)
+
     if(index >= 0) {
       ScheduleService.schedule.splice(index, 1)
       return true
@@ -16,18 +21,39 @@ export default class ScheduleService {
   }
 
   private static resetDay = (date: Date) => {
+
     const currDay = date.getDay()
+
     if(ScheduleService.day != currDay) {
       ScheduleService.day = currDay
-      ScheduleService.schedule = ScheduleService.HOURS_TO_POST
+
+      const data = fs.readFileSync(ScheduleService.dataDir)
+
+      try {
+        ScheduleService.schedule = JSON.parse(data.toString())
+      }
+      catch (err) {
+        console.warn('-> There has been an error parsing the JSON.')
+        console.error(err)
+      }
     }
   }
 
   static getSchedule = () => `-> Today's Schedule: ${ScheduleService.schedule} (GMT +00:00)`
 
+
   static setSchedule = (newSchedule: number[] ) => {
-    ScheduleService.HOURS_TO_POST = newSchedule
-    ScheduleService.schedule = ScheduleService.HOURS_TO_POST
-    return `-> New Schedule: ${ScheduleService.HOURS_TO_POST}`
+
+    fs.writeFile(ScheduleService.dataDir, JSON.stringify(newSchedule), (err) => {
+      if (err) {
+        console.warn('-> There has been an error saving the schedule data.')
+        console.error(err.message);
+        return
+      }
+    })
+
+    ScheduleService.schedule = newSchedule
+
+    return `-> New Schedule: ${ScheduleService.schedule}`
   }
 }
