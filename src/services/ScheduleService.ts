@@ -3,7 +3,7 @@ import ScheduleDataModel from '../types/ScheduleDataModel'
 
 export default class ScheduleService {
 
-  private static dataDir = 'data/ScheduleData.json'
+  private static dataDir = 'data.json'
   private static data = { day: -1, schedule: [] } as ScheduleDataModel
 
   static get isItTime () {
