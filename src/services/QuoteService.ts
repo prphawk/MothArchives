@@ -6,7 +6,7 @@ import { Bot } from '../index'
 export default class QuoteService {
 
 	static popQuote = () => {
-		superagent.get(process.env.API_URL_POP_QUOTE)
+		return superagent.get(process.env.API_URL_POP_QUOTE)
 		//alguma segurança aqui -> .set('Accept', 'application/json')
 		.set('Accept', 'application/json')
 		.end((err, res) => {

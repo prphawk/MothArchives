@@ -30,7 +30,7 @@ export default class ScheduleService {
       const data = fs.readFileSync(ScheduleService.dataDir).toString()
 
       try {
-        const schedule = JSON.parse(data).schedule
+        const schedule = (JSON.parse(data) as ScheduleDataModel).schedule
         ScheduleService.setScheduleData(schedule)
       }
       catch (err) {
