@@ -1,7 +1,7 @@
 import { Twitter } from 'twit'
 import superagent from 'superagent'
 import QuoteDataModel from '../types/QuoteModel'
-import { Bot } from '../index'
+import Bot from '../config'
 
 export default class QuoteService {
 

@@ -42,7 +42,6 @@ export default class ScheduleService {
 
   static getSchedule = () => `-> Today's Schedule: ${ScheduleService.data.schedule} (GMT +00:00)`
 
-
   static setScheduleData = (newSchedule: number[]) => {
 
     const newData = { day: new Date().getDay(), schedule: newSchedule }
