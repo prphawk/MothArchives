@@ -32,7 +32,7 @@ app.get('/schedule/', (req, res) => {
 
 app.post('/schedule/', (req, res) => {
 	const body : number[] = req.body
-	return res.send(ScheduleService.setSchedule(body))
+	return res.send(ScheduleService.setScheduleData(body))
 })
 
 app.listen(PORT, () => console.log(`\n-> Server is running at PORT: ${PORT}`))

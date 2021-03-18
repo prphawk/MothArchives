@@ -3,7 +3,7 @@ import ScheduleDataModel from '../types/ScheduleDataModel'
 
 export default class ScheduleService {
 
-  private static dataDir = 'src/data/ScheduleData.json'
+  private static dataDir = 'data/ScheduleData.json'
   private static data = { day: -1, schedule: [] } as ScheduleDataModel
 
   static get isItTime () {
@@ -27,10 +27,11 @@ export default class ScheduleService {
     if(ScheduleService.data.day != currDay) {
       ScheduleService.data.day = currDay
 
-      const data = fs.readFileSync(ScheduleService.dataDir)
+      const data = fs.readFileSync(ScheduleService.dataDir).toString()
 
       try {
-        ScheduleService.data = JSON.parse(data.toString())
+        const schedule = JSON.parse(data).schedule
+        ScheduleService.setScheduleData(schedule)
       }
       catch (err) {
         console.warn('-> There has been an error parsing the JSON.')
@@ -42,18 +43,19 @@ export default class ScheduleService {
   static getSchedule = () => `-> Today's Schedule: ${ScheduleService.data.schedule} (GMT +00:00)`
 
 
-  static setSchedule = (newSchedule: number[]) => {
+  static setScheduleData = (newSchedule: number[]) => {
 
-    fs.writeFile(ScheduleService.dataDir, JSON.stringify(
-      { day: new Date().getDay(), schedule: newSchedule }
-      ), (err) => {
+    const newData = { day: new Date().getDay(), schedule: newSchedule }
+
+    fs.writeFile(ScheduleService.dataDir, 
+      JSON.stringify(newData), (err) => {
         if (err) {
           console.warn('-> There has been an error saving the schedule data.')
           console.error(err.message);
         }
     })
 
-    ScheduleService.data.schedule = newSchedule
+    ScheduleService.data = newData
 
     return `-> New Schedule: ${ScheduleService.data.schedule}`
   }
