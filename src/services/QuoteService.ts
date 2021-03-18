@@ -1,7 +1,7 @@
 import { Twitter } from 'twit'
 import superagent from 'superagent'
 import QuoteDataModel from '../types/QuoteModel'
-import { Bot } from '../index'
+import Bot from '../config'
 
 export default class QuoteService {
 
@@ -11,10 +11,13 @@ export default class QuoteService {
 		.set('Accept', 'application/json')
 		.end((err, res) => {
 			if (res.ok) {
-				const thread = QuoteService.getThread(res.body)
-				QuoteService.tweetThread(thread)
-				return 'Popped!'
-			} else return err
+				if( res.status === 200) {
+					const thread = QuoteService.getThread(res.body)
+					QuoteService.tweetThread(thread)
+				} 
+				else console.error(`-> ERROR STATUS ${res.status}`)
+			} 
+			else console.error(err)
 		})
 	}
 

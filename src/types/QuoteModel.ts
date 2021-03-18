@@ -3,7 +3,7 @@ interface DataModel {
   text: string,
 }
 
-export default interface QuoteDataModel extends DataModel{
+export default interface QuoteDataModel extends DataModel {
   source?: string,
   replies: DataModel[]
 }
