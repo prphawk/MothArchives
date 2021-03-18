@@ -6,7 +6,7 @@ import { Bot } from '../index'
 export default class QuoteService {
 
 	static popQuote = () => {
-		return superagent.get(process.env.API_URL_POP_QUOTE)
+		superagent.get(process.env.API_URL_POP_QUOTE)
 		//alguma segurança aqui -> .set('Accept', 'application/json')
 		.set('Accept', 'application/json')
 		.end((err, res) => {
@@ -14,16 +14,16 @@ export default class QuoteService {
 				if( res.status === 200) {
 					const thread = QuoteService.getThread(res.body)
 					QuoteService.tweetThread(thread)
-				} else console.error(`-> ERROR APP REQ API; STATUS ${res.status}`)
-			} else return err
+				} 
+				else console.error(`-> ERROR STATUS ${res.status}`)
+			} 
+			else console.error(err)
 		})
 	}
 
 	private static getThread = (quote: QuoteDataModel): string[] => {
 
 		const thread = [quote.text]
-
-		console.log(quote)
 
 		if(quote.replies.length > 0) {
 			thread.push(...quote.replies.map(r => r.text))

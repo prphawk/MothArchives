@@ -1,36 +1,36 @@
 import fs from 'fs'
+import ScheduleDataModel from '../types/ScheduleDataModel'
 
 export default class ScheduleService {
 
   private static dataDir = 'src/data/ScheduleData.json'
-  private static day = new Date().getDay() 
-  private static schedule = []
+  private static data = { day: -1, schedule: [] } as ScheduleDataModel
 
   static get isItTime () {
 
     const date = new Date()
-    ScheduleService.resetDay(date)
+    ScheduleService.resetDay(date.getDay())
 
-    const index = ScheduleService.schedule.findIndex(e => date.getHours() === e)
+    const index = ScheduleService.data.schedule
+    .findIndex(e => date.getHours() === e)
 
     if(index >= 0) {
-      ScheduleService.schedule.splice(index, 1)
+      ScheduleService.data.schedule.splice(index, 1)
       return true
     }
+    
     return false
   }
 
-  private static resetDay = (date: Date) => {
+  private static resetDay = (currDay: number) => {
 
-    const currDay = date.getDay()
-
-    if(ScheduleService.day != currDay) {
-      ScheduleService.day = currDay
+    if(ScheduleService.data.day != currDay) {
+      ScheduleService.data.day = currDay
 
       const data = fs.readFileSync(ScheduleService.dataDir)
 
       try {
-        ScheduleService.schedule = JSON.parse(data.toString())
+        ScheduleService.data = JSON.parse(data.toString())
       }
       catch (err) {
         console.warn('-> There has been an error parsing the JSON.')
@@ -39,21 +39,22 @@ export default class ScheduleService {
     }
   }
 
-  static getSchedule = () => `-> Today's Schedule: ${ScheduleService.schedule} (GMT +00:00)`
+  static getSchedule = () => `-> Today's Schedule: ${ScheduleService.data.schedule} (GMT +00:00)`
 
 
-  static setSchedule = (newSchedule: number[] ) => {
+  static setSchedule = (newSchedule: number[]) => {
 
-    fs.writeFile(ScheduleService.dataDir, JSON.stringify(newSchedule), (err) => {
-      if (err) {
-        console.warn('-> There has been an error saving the schedule data.')
-        console.error(err.message);
-        return
-      }
+    fs.writeFile(ScheduleService.dataDir, JSON.stringify(
+      { day: new Date().getDay(), schedule: newSchedule }
+      ), (err) => {
+        if (err) {
+          console.warn('-> There has been an error saving the schedule data.')
+          console.error(err.message);
+        }
     })
 
-    ScheduleService.schedule = newSchedule
+    ScheduleService.data.schedule = newSchedule
 
-    return `-> New Schedule: ${ScheduleService.schedule}`
+    return `-> New Schedule: ${ScheduleService.data.schedule}`
   }
 }
