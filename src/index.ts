@@ -9,9 +9,10 @@ app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
 	return res.send(
-		ScheduleService.isItTime ? 
-		QuoteService.popQuote() : 
-		'Not Time Yet!')
+	//ScheduleService.isItTime ? 
+		QuoteService.popQuote() 
+		//: 'Not Time Yet!'
+		)
 })
 
 app.get('/schedule/', (req, res) => {
