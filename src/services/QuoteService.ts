@@ -5,13 +5,18 @@ import Bot from '../config'
 
 export default class QuoteService {
 
-	static popQuote = () => {
-		return superagent.get(process.env.API_URL_POP_QUOTE)
+	static popQuote = (forcePop?: boolean) => {
+
+		let path = process.env.API_URL_POP_QUOTE
+
+		if(forcePop) path += 'force-pop'
+
+		superagent.put(path)
 		.set('Authorization', `Bearer ${process.env.BEARER_TOKEN}`)
 		.set('Accept', 'application/json')
 		.end((err, res) => {
 			if (res.ok) {
-				if( res.status === 200) {
+				if(res.status === 200) {
 					const thread = QuoteService.getThread(res.body)
 					QuoteService.tweetThread(thread)
 				} 
