@@ -11,19 +11,23 @@ export default class QuoteService {
 
 		if(forcePop) path.concat('force-pop')
 
-		return superagent.put(path)
+		let thread: string[] = []
+
+		superagent.put(path)
 		.set('Authorization', `Bearer ${process.env.BEARER_TOKEN}`)
 		.set('Accept', 'application/json')
 		.end((err, res) => {
 			if (res.ok) {
-				if( res.status === 200) {
-					const thread = QuoteService.getThread(res.body)
+				if(res.status === 200) {
+					thread = QuoteService.getThread(res.body)
 					QuoteService.tweetThread(thread)
 				} 
 				else console.error(`-> ERROR STATUS ${res.status}`)
 			} 
 			else console.error(err)
 		})
+
+		return thread
 	}
 
 	private static getThread = (quote: QuoteDataModel): string[] => {
