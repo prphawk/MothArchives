@@ -9,5 +9,9 @@ app.use(express.urlencoded({ extended: true }))
 app.get('/', (req, res) => {
 	return res.send(QuoteService.popQuote())
 })
+
+app.get('/force-pop', (req, res) => {
+	return res.send(QuoteService.popQuote(true))
+})
 		
 app.listen(PORT, () => console.log(`\n-> Server is running at PORT: ${PORT}`))
