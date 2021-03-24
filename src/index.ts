@@ -9,19 +9,17 @@ app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
 	return res.send(
-	//ScheduleService.isItTime ? 
-		QuoteService.popQuote() 
-		//: 'Not Time Yet!'
-		)
+		ScheduleService.isItTime 
+		? QuoteService.popQuote() 
+		: 'Not Time Yet!'
+	)
 })
 
-app.get('/schedule/', (req, res) => {
-	return res.send(ScheduleService.getSchedule())
+app.get('/force-pop', (req, res) => {
+	const auth = req.headers.authorization
+	if (!auth || auth.substring(7) !== process.env.BEARER_TOKEN) {
+    return res.status(403).json({ error: 'Credentials are incorrect!' })
+  } else res.send(QuoteService.popQuote())
 })
-
-app.post('/schedule/', (req, res) => {
-	const body : number[] = req.body
-	return res.send(ScheduleService.setScheduleData(body))
-})
-
+		
 app.listen(PORT, () => console.log(`\n-> Server is running at PORT: ${PORT}`))
