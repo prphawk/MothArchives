@@ -6,7 +6,7 @@ import Bot from '../config'
 export default class QuoteService {
 
 	static popQuote = () => {
-		return superagent.get(process.env.API_URL_POP_QUOTE)
+		return superagent.put(process.env.API_URL_POP_QUOTE)
 		.set('Authorization', `Bearer ${process.env.BEARER_TOKEN}`)
 		.set('Accept', 'application/json')
 		.end((err, res) => {
