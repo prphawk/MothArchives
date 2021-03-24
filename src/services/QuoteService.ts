@@ -7,9 +7,9 @@ export default class QuoteService {
 
 	static popQuote = (forcePop?: boolean) => {
 
-		const path = process.env.API_URL_POP_QUOTE
+		let path = process.env.API_URL_POP_QUOTE
 
-		if(forcePop) path.concat('force-pop')
+		if(forcePop) path += 'force-pop'
 
 		let thread: string[] = []
 
