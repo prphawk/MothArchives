@@ -20,7 +20,8 @@ export default class QuoteService {
 					const thread = QuoteService.getThread(res.body)
 					QuoteService.tweetThread(thread)
 				} 
-				else console.error(`-> ERROR STATUS ${res.status}`)
+				else if(res.status === 204) 
+					console.log(`-> No need to post yet!`)
 			} 
 			else console.error(err)
 		})
@@ -34,7 +35,7 @@ export default class QuoteService {
 			thread.push(...quote.replies.map(r => r.text))
 		}
 
-		if(quote.source) {
+		if(quote.source && quote.hideSource !== true) {
 			thread.push("→ " + quote.source)
 		}
 
