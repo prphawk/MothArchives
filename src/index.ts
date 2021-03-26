@@ -7,7 +7,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
-	return res.send(QuoteService.popQuote())
+
+	const isItTime = () => {
+		const now = new Date().getHours()
+		return [11, 17, 23].some(h => h == now) //GMT
+	} 
+
+	return res.send(isItTime() ? QuoteService.popQuote() : 'Not Time Yet!')
 })
 
 app.get('/force-pop', (req, res) => {
