@@ -1,6 +1,6 @@
 import { Twitter } from 'twit'
 import superagent from 'superagent'
-import QuoteDataModel from '../types/QuoteModel'
+import QuoteDataModel from '../type'
 import Bot from '../config'
 
 export default class QuoteService {
@@ -49,8 +49,7 @@ export default class QuoteService {
 			Bot.post('statuses/update', { 
 				status: head,
 				in_reply_to_status_id,
-				//auto_populate_reply_metadata: true  
-			}, (err, data: Twitter.Status, res) => {
+			}, (err, data: Twitter.Status) => {
 				if(err) {
 					console.log('-> ERR:' + head) 
 					return console.error(err)
