@@ -10,11 +10,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "twitter", 
-    "bot", 
-    "quote bot", 
-    "twitter api", 
-    "node js", 
+    "twitter",
+    "bot",
+    "quote bot",
+    "twitter api",
+    "node js",
     "typescript"
   ],
   "author": {
@@ -26,7 +26,8 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "superagent": "^6.1.0",
-    "twit": "^2.2.11"
+    "twit": "^2.2.11",
+    "http-status-codes": "^2.1.4"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",

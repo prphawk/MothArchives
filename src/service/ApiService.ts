@@ -1,14 +1,15 @@
 import QuoteDataModel from "../type/QuoteDataModel"
 import superagent from "superagent"
+import code from 'http-status-codes'
 
 export const getSource = async (text: string) => {
 
   const res = await superagent.get(process.env.API_URL_SEARCH_SOURCE).send({ text })
     if (res.ok) {
-      if(res.status === 200) {
+      if(res.status === code.OK) {
         return res.text
       } 
-      else if(res.status === 204) 
+      else if(res.status === code.NO_CONTENT) 
         console.log(`-> No source found!`)
     } else console.error(res.error)
 
@@ -19,21 +20,21 @@ export const getQuote = async (forcePop: boolean) => {
 
   let path = process.env.API_URL_POP_QUOTE
 
-    if(forcePop) path += 'force-pop'
+  if(forcePop) path += 'force-pop'
 
-    const res = await superagent.put(path)
-    .set('Authorization', `Bearer ${process.env.BEARER_TOKEN}`)
-    .set('Accept', 'application/json')
-    
-      if (res.ok) {
-        if(res.status === 200) {
-          return res.body as QuoteDataModel
-        } 
-        if(res.status === 204) 
-          console.log(`-> No need to post yet!`)
+  const res = await superagent.put(path)
+  .set('Authorization', `Bearer ${process.env.BEARER_TOKEN}`)
+  .set('Accept', 'application/json')
+  
+    if (res.ok) {
+      if(res.status === code.OK) {
+        return res.body as QuoteDataModel
       } 
-      else 
-        console.error(res.error)
+      if(res.status === code.NO_CONTENT) 
+        console.log(`-> No need to post yet!`)
+    } 
+    else 
+      console.error(res.error)
 
-      return undefined
+    return undefined
 }
