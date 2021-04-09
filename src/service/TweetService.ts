@@ -1,31 +1,17 @@
 import { Twitter } from 'twit'
-import superagent from 'superagent'
-import QuoteDataModel from '../type'
+import QuoteDataModel from '../type/QuoteDataModel'
 import Bot from '../config'
-
+import { getQuote } from './ApiService'
 
 export default class TweetService {
 
-	static popQuote = (forcePop?: boolean) => {
+	static tweetQuote = async (forcePop?: boolean) => {
 
-		let path = process.env.API_URL_POP_QUOTE
-
-		if(forcePop) path += 'force-pop'
-
-		superagent.put(path)
-		.set('Authorization', `Bearer ${process.env.BEARER_TOKEN}`)
-		.set('Accept', 'application/json')
-		.end((err, res) => {
-			if (res.ok) {
-				if(res.status === 200) {
-					const thread = TweetService.getThread(res.body)
-					TweetService.tweetThread(thread)
-				} 
-				else if(res.status === 204) 
-					console.log(`-> No need to post yet!`)
-			} 
-			else console.error(err)
-		})
+		const quote = await getQuote(forcePop)
+		if(quote) {
+			const thread = TweetService.getThread(quote)
+			TweetService.tweetThread(thread)
+		}
 	}
 
 	private static getThread = (quote: QuoteDataModel): string[] => {

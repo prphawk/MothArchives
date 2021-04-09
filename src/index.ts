@@ -12,11 +12,11 @@ app.get('/', (req, res) => {
 		return [11, 17, 23].some(h => h == now)
 	} 
 
-	return res.send(isItTime() ? TweetService.popQuote() : 'Not Time Yet!')
+	return res.send(isItTime() ? TweetService.tweetQuote() : 'Not Time Yet!')
 })
 
 app.get('/force-pop', (req, res) => {
-	return res.send(TweetService.popQuote(true))
+	return res.send(TweetService.tweetQuote(true))
 })
 		
 app.listen(PORT, () => console.log(`-> Server is running at PORT: ${PORT}`))
