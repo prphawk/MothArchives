@@ -3,7 +3,8 @@ import superagent from 'superagent'
 import QuoteDataModel from '../type'
 import Bot from '../config'
 
-export default class QuoteService {
+
+export default class TweetService {
 
 	static popQuote = (forcePop?: boolean) => {
 
@@ -17,8 +18,8 @@ export default class QuoteService {
 		.end((err, res) => {
 			if (res.ok) {
 				if(res.status === 200) {
-					const thread = QuoteService.getThread(res.body)
-					QuoteService.tweetThread(thread)
+					const thread = TweetService.getThread(res.body)
+					TweetService.tweetThread(thread)
 				} 
 				else if(res.status === 204) 
 					console.log(`-> No need to post yet!`)
@@ -42,7 +43,7 @@ export default class QuoteService {
 		return thread
 	}
 
-	private static tweetThread = (thread: string[], in_reply_to_status_id?: string) => {
+	static tweetThread = (thread: string[], in_reply_to_status_id?: string) => {
 		if(thread.length > 0) {
 			const [head, ...tail] = thread;
 			
@@ -55,7 +56,7 @@ export default class QuoteService {
 					return console.error(err)
 				}
 				console.log(`-> Tweeted: ${data.full_text || data.text}`)
-				QuoteService.tweetThread(tail, data.id_str)
+				TweetService.tweetThread(tail, data.id_str)
 			})
 		}
 	}
