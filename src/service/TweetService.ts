@@ -22,7 +22,7 @@ export default class TweetService {
 			thread.push(...quote.replies.map(r => r.text))
 		}
 
-		if(quote.source && quote.hideSource !== true) {
+		if(quote.source && quote.showSource) {
 			thread.push("→ " + quote.source)
 		}
 

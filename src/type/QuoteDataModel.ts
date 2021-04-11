@@ -5,7 +5,7 @@ interface DataModel {
 
 export default interface QuoteDataModel extends DataModel {
   source?: string,
-  hideSource?: boolean,
+  showSource?: boolean,
   replies: DataModel[]
 }
 
