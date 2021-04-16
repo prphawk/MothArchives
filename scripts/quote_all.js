@@ -31,4 +31,7 @@ fs.writeFile(quoteAllFile,
     }
 })
 
-//node ./scripts/quote_all.js
+/*
+cd ../motharchives 
+node ./scripts/quote_all.js
+*/

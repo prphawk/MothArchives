@@ -4,8 +4,12 @@ import code from 'http-status-codes'
 
 export const getSource = async (text: string) => {
 
-  const res = await superagent.get(process.env.API_URL_SEARCH_SOURCE).send({ text })
-    if (res.ok) {
+  const res = await superagent
+  .get(process.env.API_URL_SEARCH_SOURCE)
+  .send({ text })
+  .on('error', () => console.log("-> deu merda getSource"))
+
+  if (res.ok) {
       if(res.status === code.OK) {
         return res.text
       } 
@@ -25,6 +29,7 @@ export const getQuote = async (forcePop: boolean) => {
   const res = await superagent.put(path)
   .set('Authorization', `Bearer ${process.env.BEARER_TOKEN}`)
   .set('Accept', 'application/json')
+  .on('error', () => console.log("-> deu merda getQuote"))
   
     if (res.ok) {
       if(res.status === code.OK) {

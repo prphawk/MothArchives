@@ -11,4 +11,6 @@ const Bot = new Twit({
 	access_token_secret: process.env.ACCESS_TOKEN_SECRET,
 })
 
+export const track = ["Source?", "Sauce?", "Fonte?", "src?"]
+
 export default Bot
