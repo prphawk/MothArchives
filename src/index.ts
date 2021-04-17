@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 8000
 		
 // app.listen(PORT, () => console.log(`-> Server is running at PORT: ${PORT}`))
 
-console.log(`-> v.0.2 ${new Date()} Server is running at PORT: ${PORT}`)
+console.log(`-> v.0.3 ${new Date()} Server is running at PORT: ${PORT}`)
 
 ReplyService.ReplyStream()
 
