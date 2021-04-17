@@ -6,16 +6,6 @@ import cron from 'node-cron'
 const app = express()
 const PORT = process.env.PORT || 8000
 
-app.get('/', (req, res) => {
-
-	const isItTime = () => {
-		const now = new Date().getHours()
-		return [11, 17, 23].some(h => h == now)
-	} 
-
-	return res.send(isItTime() ? TweetService.tweetQuote() : 'Not Time Yet!')
-})
-
 app.get('/force-pop', (req, res) => {
 	return res.send(TweetService.tweetQuote(true))
 })
@@ -24,12 +14,7 @@ app.listen(PORT, () => console.log(`-> Server is running at PORT: ${PORT}`))
 
 ReplyService.ReplyStream()
 
-cron.schedule('* * * * *', () => {console.log("Task is running every minute " + new Date())});
+cron.schedule('0 0 11,17,23 * * *', () => { console.log("Tweeting..."); TweetService.tweetQuote() })
 
-cron.schedule('* * * * *', () => {console.log("Task is running every minute " + new Date())});
-
-cron.schedule('* * * * *', () => {console.log("Task is running every minute " + new Date())});
-
-cron.schedule('* * * * *', () => {console.log("Task is running every minute " + new Date())});
 
 
