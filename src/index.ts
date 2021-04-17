@@ -16,7 +16,7 @@ console.log(`-> v. ${new Date()} Server is running at PORT: ${PORT}`)
 
 ReplyService.ReplyStream()
 
-cron.schedule('0 0 11,17,23 * * *', () => { console.log("Tweeting..."); TweetService.tweetQuote() })
+cron.schedule('0 0 11,17,18,19,20,21,22,23 * * *', () => { console.log("Tweeting..."); TweetService.tweetQuote() })
 
 
 
