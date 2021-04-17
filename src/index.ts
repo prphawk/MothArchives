@@ -1,18 +1,20 @@
-import express from "express"
 import ReplyService from "./service/ReplyService"
 import TweetService from "./service/TweetService"
 import cron from 'node-cron'
 
-const app = express()
 const PORT = process.env.PORT || 8000
 
-app.get('/force-pop', (req, res) => {
-	return res.send(TweetService.tweetQuote(true))
-})
-		
-app.listen(PORT, () => console.log(`-> Server is running at PORT: ${PORT}`))
+//import express from "express"
 
-console.log(`-> v.0.3 ${new Date()} Server is running at PORT: ${PORT}`)
+// const app = express()
+
+// app.get('/force-pop', (req, res) => {
+// 	return res.send(TweetService.tweetQuote(true))
+// })
+		
+// app.listen(PORT, () => console.log(`-> Server is running at PORT: ${PORT}`))
+
+console.log(`-> v.0.4 ${new Date()} Server is running at PORT: ${PORT}`)
 
 ReplyService.ReplyStream()
 

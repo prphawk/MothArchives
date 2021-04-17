@@ -8,13 +8,15 @@ export default class ReplyService {
 
   static ReplyStream = () => {
 
+    console.log("entramos")
+
     const isReplyToBot = (data: Twitter.Status) => 
     data.in_reply_to_user_id_str === process.env.ACCOUNT_ID
 
     const stream = Bot.stream('statuses/filter', { track })
 
     stream.on('tweet', (data: Twitter.Status) => {
-
+      console.log(data.text)
       if(isReplyToBot(data)) {
         ReplyService.replyWithSource({
           userHandle: data.user.screen_name, 
