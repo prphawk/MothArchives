@@ -1,4 +1,4 @@
-import UserReplyModel from "../type/UserReplyModel"
+import UserReplyModel from "../types/UserReplyModel"
 import { Twitter } from "twit"
 import Bot, { track } from "../config"
 import { getSource } from "./ApiService"

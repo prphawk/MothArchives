@@ -13,4 +13,4 @@ dist/**/*
 
 quotes
 
-quote_all.json
+scripts/*.json
