@@ -1,5 +1,5 @@
 import { Twitter } from 'twit'
-import QuoteDataModel from '../type/QuoteDataModel'
+import QuoteDataModel from '../types/QuoteDataModel'
 import Bot from '../config'
 import { getQuote } from './ApiService'
 
@@ -11,7 +11,10 @@ export default class TweetService {
 		if(quote) {
 			const thread = TweetService.getThread(quote)
 			TweetService.tweetThread(thread)
+			return quote
 		}
+
+		return undefined
 	}
 
 	private static getThread = (quote: QuoteDataModel): string[] => {
@@ -33,15 +36,14 @@ export default class TweetService {
 		if(thread.length > 0) {
 			const [head, ...tail] = thread;
 			
-			Bot.post('statuses/update', { 
-				status: head,
-				in_reply_to_status_id,
-			}, (err, data: Twitter.Status) => {
+			Bot.post('statuses/update', 
+			{ status: head, in_reply_to_status_id }, 
+			(err, data: Twitter.Status) => {
 				if(err) {
 					console.log('-> ERR:' + head) 
 					return console.error(err)
 				}
-				console.log(`-> Tweeted: ${data.full_text || data.text}`)
+				console.log(`-> Tweeted: ${data.text}`)
 				TweetService.tweetThread(tail, data.id_str)
 			})
 		}

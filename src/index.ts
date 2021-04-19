@@ -1,24 +1,20 @@
-import express from "express"
-import ReplyService from "./service/ReplyService"
-import TweetService from "./service/TweetService"
+import ReplyService from "./services/ReplyService"
+import TweetService from "./services/TweetService"
+import cron from 'node-cron'
 
-const app = express()
 const PORT = process.env.PORT || 8000
 
-app.get('/', (req, res) => {
+import express from "express"
 
-	const isItTime = () => {
-		const now = new Date().getHours()
-		return [11, 17, 23].some(h => h == now)
-	} 
+const app = express()
 
-	return res.send(isItTime() ? TweetService.tweetQuote() : 'Not Time Yet!')
-})
-
-app.get('/force-pop', (req, res) => {
-	return res.send(TweetService.tweetQuote(true))
-})
+app.get('/force-pop', async (req, res) =>  res.send(await TweetService.tweetQuote(true)))
 		
 app.listen(PORT, () => console.log(`-> Server is running at PORT: ${PORT}`))
 
 ReplyService.ReplyStream()
+
+cron.schedule('0 0/30 11,17,23 * * *', () => { console.log("Tweeting..."); TweetService.tweetQuote() })
+
+
+
