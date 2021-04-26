@@ -2,6 +2,7 @@ import { Twitter } from 'twit'
 import QuoteDataModel from '../types/QuoteDataModel'
 import Bot from '../config'
 import { getQuote } from './ApiService'
+import * as fs from 'fs'
 
 export default class TweetService {
 
@@ -36,9 +37,7 @@ export default class TweetService {
 		if(thread.length > 0) {
 			const [head, ...tail] = thread;
 			
-			Bot.post('statuses/update', 
-			{ status: head, in_reply_to_status_id }, 
-			(err, data: Twitter.Status) => {
+			Bot.post('statuses/update', { status: head, in_reply_to_status_id }, (err, data: Twitter.Status) => {
 				if(err) {
 					console.log('-> ERR:' + head) 
 					return console.error(err)
@@ -48,4 +47,23 @@ export default class TweetService {
 			})
 		}
 	}
+
+	static tweetImage = (pathToImage: string, status?: string, altText?: string) => {
+  
+    const b64content = fs.readFileSync(pathToImage, { encoding: 'base64' })
+
+    Bot.post('media/upload', { media_data: b64content }, (err, data: { media_id_string: string }) => {
+
+      const mediaIdStr = data.media_id_string 
+      const meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
+
+      Bot.post('media/metadata/create', meta_params, (err) => {
+        if (!err) {
+          const params = { status, media_ids: [mediaIdStr] }
+
+          Bot.post('statuses/update', params, (err, data) => console.log(data))
+        }
+      })
+    })
+}
 }

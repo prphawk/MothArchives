@@ -5,8 +5,11 @@ import cron from 'node-cron'
 const PORT = process.env.PORT || 8000
 
 import express from "express"
+import Bot from "./config"
 
 const app = express()
+
+app.get('/', async (req, res) => res.send(await TweetService.tweetImage("./quotes/winter.png")))
 
 app.get('/force-pop', async (req, res) =>  res.send(await TweetService.tweetQuote(true)))
 		
