@@ -9,7 +9,7 @@ import Bot from "./config"
 
 const app = express()
 
-app.get('/', async (req, res) => res.send(await TweetService.tweetImage("./quotes/winter.png")))
+app.get('/', async (req, res) =>  res.send(await TweetService.tweetQuote()))
 
 app.get('/force-pop', async (req, res) =>  res.send(await TweetService.tweetQuote(true)))
 		
