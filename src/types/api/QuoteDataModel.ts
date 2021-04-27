@@ -3,11 +3,16 @@ interface DataModel {
   text?: string,
 }
 
+export interface ImageDataModel { 
+  altText?: string,
+  fileName: string 
+}
+
 export default interface QuoteDataModel extends DataModel {
   source?: string,
   showSource?: boolean,
   replies: DataModel[]
-  image?: { altText?: string, path: string }
+  image?: ImageDataModel
 }
 
 

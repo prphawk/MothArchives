@@ -14,7 +14,7 @@ export default class TweetService {
 			source: "source",
 			replies: [],
 			showSource: true,
-			image: { altText: "altText", path: "./quotes/images/winter.png" }
+			image: { altText: "altText", fileName: "./quotes/images/winter.png" }
 		} as QuoteDataModel
 		if(quote) {
 			const thread = TweetService.getThread(quote)

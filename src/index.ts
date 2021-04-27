@@ -1,11 +1,9 @@
 import ReplyService from "./services/ReplyService"
 import TweetService from "./services/TweetService"
 import cron from 'node-cron'
+import express from "express"
 
 const PORT = process.env.PORT || 8000
-
-import express from "express"
-import Bot from "./config"
 
 const app = express()
 
