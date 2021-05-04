@@ -12,7 +12,7 @@ export default interface QuoteDataModel extends DataModel {
   source?: string,
   showSource?: boolean,
   replies: DataModel[]
-  image?: ImageDataModel
+  images?: ImageDataModel[]
 }
 
 

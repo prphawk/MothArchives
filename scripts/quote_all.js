@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-const justPriority = false
+const justPriority = true
 const quotesDir = './quotes/'
 const fileNames = fs.readdirSync(quotesDir)
 const finalFilePath = `./scripts/${justPriority ? "quote_priority" : "quote_all"}.json`
