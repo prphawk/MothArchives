@@ -1,4 +1,4 @@
-import UserReplyModel from "../types/UserReplyModel"
+import UserReplyModel from "../types/api/UserReplyModel"
 import { Twitter } from "twit"
 import Bot, { track } from "../config"
 import { getSource } from "./ApiService"
@@ -41,7 +41,7 @@ export default class ReplyService {
 
       const src = await getSource(text)
       if(src) {
-        TweetService.tweetThread([`@${userHandle} [src] ${src}`], userTweetId)
+        TweetService.tweetThread([{ status: `@${userHandle} [src] ${src}` }], userTweetId)
       }
     }
   }

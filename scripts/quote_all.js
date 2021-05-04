@@ -1,24 +1,15 @@
 const fs = require('fs')
 
-const justPriority = true
+const justPriority = false
 const quotesDir = './quotes/'
 const fileNames = fs.readdirSync(quotesDir)
 const finalFilePath = `./scripts/${justPriority ? "quote_priority" : "quote_all"}.json`
 
 let data = []
-let invisibleData = 0
 
 const readFile = (file) => JSON.parse(fs.readFileSync(`${quotesDir}${file}`).toString())
 
-const filterQuotes = (arr) => 
-arr.filter(q => { 
-  if(q.invisible) 
-    invisibleData++
-  return justPriority 
-    ? q.priority === true 
-    : q.text !== ''
-})
-
+const filterQuotes = (arr) => arr.filter(q => q.text !== '' && (justPriority ? q.priority === true : true))
 
 fileNames.forEach(file => {
   const fileData = readFile(file)
@@ -27,7 +18,7 @@ fileNames.forEach(file => {
 
 const response = {
   numberOfQuotes: data.length,
-  daysOfPosting: ((data.length-invisibleData)/3).toFixed(1),
+  daysOfPosting: (data.length/3).toFixed(1),
   shuffle: true,
   quotes: data
 }

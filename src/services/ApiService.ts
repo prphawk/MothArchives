@@ -1,4 +1,4 @@
-import QuoteDataModel from "../types/QuoteDataModel"
+import QuoteDataModel from "../types/api/QuoteDataModel"
 import superagent from "superagent"
 import code from 'http-status-codes'
 
