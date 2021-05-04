@@ -1,26 +1,18 @@
 import { Twitter } from 'twit'
 import QuoteDataModel from '../types/api/QuoteDataModel'
 import Bot from '../config'
-import * as fs from 'fs'
 import TweetProps from '../types/TweetProps'
+import { getQuote } from './ApiService'
 
 export default class TweetService {
 
 	static tweetQuote = async (forcePop?: boolean) => {
 
-		//const quote = await getQuote(forcePop)
-		const quote = {
-			text: "ola text",
-			source: "source",
-			replies: [],
-			showSource: true,
-			image: { altText: "altText", fileName: "./quotes/images/winter.png" }
-		} as QuoteDataModel
+		const quote = await getQuote(forcePop)
+		
 		if(quote) {
 			const thread = TweetService.getThread(quote)
-			quote.image 
-			? TweetService.tweetImage(thread) 
-			: TweetService.tweetThread(thread)
+			TweetService.tweetThread(thread)
 			return quote
 		}
 
@@ -64,24 +56,4 @@ export default class TweetService {
 		}
 	}
 
-	private static tweetImage = (thread: TweetProps[]) => {
-
-		const image = thread[0].image
-  
-    const b64content = fs.readFileSync(image.path, { encoding: 'base64' })
-
-    return Bot.post('media/upload', { media_data: b64content }, (err, data: { media_id_string: string }) => {
-
-      const mediaIdStr = data.media_id_string 
-      const meta_params = { media_id: mediaIdStr, alt_text: { text: image.altText } }
-
-      Bot.post('media/metadata/create', meta_params, (err) => {
-        if (!err) {
-					image.media_ids = [mediaIdStr]
-					TweetService.tweetThread(thread)
-        }
-				else console.log(err)
-      })
-    })
-}
 }
