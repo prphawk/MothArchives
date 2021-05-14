@@ -7,7 +7,7 @@ export const getSource = async (text: string) => {
   const res = await superagent
   .get(process.env.API_URL_SEARCH_SOURCE)
   .send({ text })
-  .on('error', () => console.log("-> deu merda getSource"))
+  .on('error', () => console.error("-> ERROR GETSOURCE"))
 
     if (res.ok) {
       return res.status === code.OK ? res.text : undefined
@@ -24,7 +24,7 @@ export const getQuote = async (forcePop: boolean) => {
   const res = await superagent.put(path)
   .set('Authorization', `Bearer ${process.env.BEARER_TOKEN}`)
   .set('Accept', 'application/json')
-  .on('error', () => console.log("-> deu merda getQuote"))
+  .on('error', () => console.error("-> ERROR GETQUOTE"))
   
     if (res.ok) {
       if(res.status === code.OK) {

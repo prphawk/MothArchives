@@ -18,7 +18,7 @@ fileNames.forEach(file => {
 
 const response = {
   numberOfQuotes: data.length,
-  daysOfPosting: (data.length/3).toFixed(1),
+  daysOfPosting: (data.length/4).toFixed(1),
   shuffle: true,
   quotes: data
 }
