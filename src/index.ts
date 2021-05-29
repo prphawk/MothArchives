@@ -7,6 +7,8 @@ const PORT = process.env.PORT || 8000
 
 const app = express()
 
+TweetService.tweetQuote()
+
 app.get('/', async (req, res) =>  res.send(await TweetService.tweetQuote()))
 
 app.get('/force-pop', async (req, res) =>  res.send(await TweetService.tweetQuote(true)))
