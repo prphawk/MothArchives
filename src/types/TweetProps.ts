@@ -1,10 +1,11 @@
 import { ImageDataModel } from "./api/QuoteDataModel"
 
-interface ImageProps extends ImageDataModel	{ 
+export interface ImagesProps { 
+	data: ImageDataModel[]
 	media_ids?: string[] 
 } 
 
 export default interface TweetProps {
 	status?: string,
-	image?: ImageProps
+	images?: ImagesProps
 }

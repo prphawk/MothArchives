@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 8000
 
 const app = express()
 
-app.get('/', async (req, res) =>  res.send(await TweetService.tweetQuote()))
+TweetService.tweetQuote()
 
 app.get('/force-pop', async (req, res) =>  res.send(await TweetService.tweetQuote(true)))
 		
@@ -15,7 +15,4 @@ app.listen(PORT, () => console.log(`-> Server is running at PORT: ${PORT}`))
 
 ReplyService.ReplyStream()
 
-cron.schedule('0 0 * * * *', () => { console.log("Tweeting..."); TweetService.tweetQuote() })
-
-
-
+cron.schedule('0 0 3,11,15,19,23 * * *', () => TweetService.tweetQuote())
