@@ -7,8 +7,6 @@ const PORT = process.env.PORT || 8000
 
 const app = express()
 
-TweetService.tweetQuote()
-
 app.get('/force-pop', async (req, res) =>  res.send(await TweetService.tweetQuote(true)))
 		
 app.listen(PORT, () => console.log(`-> Server is running at PORT: ${PORT}`))
