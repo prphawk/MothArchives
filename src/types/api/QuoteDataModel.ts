@@ -1,17 +1,14 @@
-interface DataModel {
-  id: number,
-  text?: string,
-}
-
 export interface ImageDataModel { 
   altText?: string,
   fileName: string 
 }
 
-export default interface QuoteDataModel extends DataModel {
+export default interface QuoteDataModel {
+  id: number,
+  text?: string,
   source?: string,
   showSource?: boolean,
-  replies: DataModel[]
+  replies: string[]
   images?: ImageDataModel[]
 }
 

@@ -26,15 +26,9 @@ export const getQuote = async (forcePop: boolean) => {
   .set('Accept', 'application/json')
   .on('error', () => console.log("-> deu merda getQuote"))
   
-    if (res.ok) {
-      if(res.status === code.OK) {
+    if (res.ok && res.status === code.OK) {
         return res.body as QuoteDataModel
-      } 
-      if(res.status === code.NO_CONTENT) 
-        console.log(`-> No need to post yet!`)
-    } 
-    else 
-      console.error(res.error)
+    } else console.error(res.error)
 
     return undefined
 }

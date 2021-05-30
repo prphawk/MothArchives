@@ -12,13 +12,13 @@ export default class TweetService {
 		const quote = {
 			text: "ola text",
 			source: "source :)",
-			replies: [{"text": "ola reply"}],
+			replies: ["ola reply"],
 			showSource: true,
-			images: [{ altText: "altText", fileName: "winter.png" }, { altText: "altText2", fileName: "shera.png" }]
+			images: []//[{ altText: "altText", fileName: "winter.png" }, { altText: "altText2", fileName: "shera.png" }]
 		} as QuoteDataModel
 		if(quote) {
 			const thread = TweetService.getThread(quote)
-			quote.images
+			quote.images.length > 0
 				? TweetService.tweetImage(thread) 
 				: TweetService.tweetThread(thread)
 			return quote
@@ -38,7 +38,7 @@ export default class TweetService {
 
 		if(quote.replies.length > 0) {
 			thread.push(...quote.replies.map(r => { 
-				return { status: r.text }
+				return { status: r }
 			}))
 		}
 
@@ -80,7 +80,7 @@ export default class TweetService {
 				let b64content: string
 
 				try {	
-					b64content = fs.readFileSync(`./images/${image.fileName}+1`, { encoding: 'base64' })
+					b64content = fs.readFileSync(`./images/${image.fileName}`, { encoding: 'base64' })
 				} catch (e) {
 					console.log(e)
 				}
