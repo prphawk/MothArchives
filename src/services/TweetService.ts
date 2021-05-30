@@ -3,7 +3,6 @@ import QuoteDataModel from '../types/api/QuoteDataModel'
 import Bot from '../config'
 import * as fs from 'fs'
 import TweetProps from '../types/TweetProps'
-import { getQuote } from './ApiService'
 
 export default class TweetService {
 
@@ -13,15 +12,15 @@ export default class TweetService {
 		const quote = {
 			text: "ola text",
 			source: "source :)",
-			replies: [],
+			replies: [{"text": "ola reply"}],
 			showSource: true,
 			images: [{ altText: "altText", fileName: "winter.png" }, { altText: "altText2", fileName: "shera.png" }]
 		} as QuoteDataModel
 		if(quote) {
 			const thread = TweetService.getThread(quote)
 			quote.images
-			? TweetService.tweetImage(thread) 
-			: TweetService.tweetThread(thread)
+				? TweetService.tweetImage(thread) 
+				: TweetService.tweetThread(thread)
 			return quote
 		}
 
@@ -71,51 +70,37 @@ export default class TweetService {
 	}
 
 	private static tweetImage = (thread: TweetProps[]) => {
+		if(thread.length > 0) {
+			const [head, ...tail] = thread
 
-		// const uploadImages = (images: ImagesProps) => {
-			
-		// 		images.media_ids = []
-				//images.data.forEach(async d => {
+			if(head.images) {
 
-				
+				const image = head.images.data[0]
 
-				// const b64content = fs.readFileSync(`./images/${d.fileName}`, { encoding: 'base64' })
+				let b64content: string
 
-				// Bot.post('media/upload', { media_data: b64content })
-				// .then(async response => {
-					
-				// 	const mediaIdStr = response.data["media_id_string"] 
-				// 	const meta_params = { media_id: mediaIdStr, alt_text: { text: d.altText } }
-					
-				// 	await Bot.post('media/metadata/create', meta_params)
-				// 	.then(response => images.media_ids.push(mediaIdStr))
-				// }).catch(err => console.error(err))
+				try {	
+					b64content = fs.readFileSync(`./images/${image.fileName}+1`, { encoding: 'base64' })
+				} catch (e) {
+					console.log(e)
+				}
 
-				const b64content1 = fs.readFileSync(`./images/winter.png`, { encoding: 'base64' })
-				const b64content2 = fs.readFileSync(`./images/shera.png`, { encoding: 'base64' })
-
-				const image = b64content1+','+b64content2
-
-				Bot.post('media/upload', { media_data: b64content1 }, function(err, data1, res) {
-					if (err) console.log(err);
-					console.log(data1);
-					Bot.post('media/upload', { media_data: b64content2 }, function(err, data2, res) {
-						if (err) console.log(err);
-						console.log(data2);
-							Bot.post('statuses/update', {status: 'test picture', media_ids: [ data1["media_id_string"], data2["media_id_string"] ] } , function(err, params, res) {
-								if (err) console.log(err);
-								console.log(params);
-							})
-					})
-			})
-			//})    
+				Bot.post('media/upload', { media_data: b64content }, (err, result) => {
+					if(!err) {
+						const mediaIdStr = result["media_id_string"] 
+						const meta_params = { media_id: mediaIdStr, alt_text: { text: image.altText } }
+						
+						Bot.post('media/metadata/create', meta_params, (err) => {
+							if (!err) {
+								head.images.media_ids = [mediaIdStr]
+								TweetService.tweetThread([head, ...tail])
+							}
+							else console.log(err)
+						})
+					}
+					else console.log(err)
+				})
+			}
 		}
-
-		// thread.forEach(t => { 
-		// 	if(t.images) {
-		// 		uploadImages(t.images) 
-		// 		console.log(t.images)
-		// 	} 
-		// }) 
-	//}
+	}
 }
