@@ -16,7 +16,7 @@ fileNames.forEach(file => {
   data.push(...filterQuotes(fileData))
 })
 
-daysOfPosting = (data.length/4).toFixed(1)
+daysOfPosting = (data.length/5).toFixed(1)
 
 const response = {
   numberOfQuotes: data.length,
