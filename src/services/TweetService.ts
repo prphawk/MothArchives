@@ -3,24 +3,21 @@ import QuoteDataModel from '../types/api/QuoteDataModel'
 import Bot from '../config'
 import * as fs from 'fs'
 import TweetProps from '../types/TweetProps'
+import { getQuote } from './ApiService'
 
 export default class TweetService {
 
 	static tweetQuote = async (forcePop?: boolean) => {
 
-		//const quote = await getQuote(forcePop)
-		const quote = {
-			text: "ola text",
-			source: "source :)",
-			replies: ["ola reply"],
-			showSource: true,
-			images: []//[{ altText: "altText", fileName: "winter.png" }, { altText: "altText2", fileName: "shera.png" }]
-		} as QuoteDataModel
+		const quote = await getQuote(forcePop)
+		
 		if(quote) {
 			const thread = TweetService.getThread(quote)
+
 			quote.images.length > 0
 				? TweetService.tweetImage(thread) 
 				: TweetService.tweetThread(thread)
+				
 			return quote
 		}
 
