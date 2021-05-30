@@ -77,26 +77,20 @@ export default class TweetService {
 				let b64content: string
 
 				try {	
-					b64content = fs.readFileSync(`./images/${image.fileName}`, { encoding: 'base64' })
+					b64content = fs.readFileSync(`./images/${image}`, { encoding: 'base64' })
+
+					Bot.post('media/upload', { media_data: b64content }, (err, result) => {
+						if(!err) {
+							const mediaIdStr = result["media_id_string"] 
+							head.images.media_ids = [mediaIdStr]
+							TweetService.tweetThread([head, ...tail])
+						}
+						else console.log(err)
+					})
+
 				} catch (e) {
 					console.log(e)
 				}
-
-				Bot.post('media/upload', { media_data: b64content }, (err, result) => {
-					if(!err) {
-						const mediaIdStr = result["media_id_string"] 
-						const meta_params = { media_id: mediaIdStr, alt_text: { text: image.altText } }
-						
-						Bot.post('media/metadata/create', meta_params, (err) => {
-							if (!err) {
-								head.images.media_ids = [mediaIdStr]
-								TweetService.tweetThread([head, ...tail])
-							}
-							else console.log(err)
-						})
-					}
-					else console.log(err)
-				})
 			}
 		}
 	}

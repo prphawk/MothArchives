@@ -1,7 +1,5 @@
-import { ImageDataModel } from "./api/QuoteDataModel"
-
 export interface ImagesProps { 
-	data: ImageDataModel[]
+	data: string[]
 	media_ids?: string[] 
 } 
 
