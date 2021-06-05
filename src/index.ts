@@ -13,6 +13,5 @@ app.listen(PORT, () => console.log(`-> Server is running at PORT: ${PORT}`))
 
 ReplyService.ReplyStream()
 
-
-//11 14 17 20 23
-cron.schedule('0 0 14,17,20,23,2 * * *', () => TweetService.tweetQuote())
+//10 12 14 16 18 20 22
+cron.schedule('0 0 1,13,15,17,19,21,23 * * *', () => TweetService.tweetQuote())

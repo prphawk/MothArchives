@@ -9,7 +9,11 @@ let data = []
 
 const readFile = (file) => JSON.parse(fs.readFileSync(`${quotesDir}${file}`).toString())
 
-const filterQuotes = (arr) => arr.filter(q => q.text !== '' && (justPriority ? q.priority === true : true))
+const textOrimages = (q) => q.text !== '' || (q.images && q.images.length > 0)
+
+const isPriorityOnly = (q) => justPriority ? q.priority === true : true
+
+const filterQuotes = (arr) => arr.filter(q => textOrimages(q) && isPriorityOnly(q))
 
 fileNames.forEach(file => {
   const fileData = readFile(file)
