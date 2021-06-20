@@ -7,12 +7,14 @@ export const getSource = async (text: string) => {
   const res = await superagent
   .get(process.env.API_URL_SEARCH_SOURCE)
   .send({ text })
-  .on('error', () => console.log("-> deu merda getSource"))
+  .catch((err) => {
+    console.warn(`Unable to get Source: ${err.message}`)
+    return undefined
+  })
 
     if (res.ok) {
-      return res.status === code.OK ? res.text : undefined
+      return res.status === code.OK ? res.text as QuoteDataModel : undefined
     } else console.error(res.error)
-    return undefined
   }
   
 export const getQuote = async (forcePop: boolean) => {
@@ -24,11 +26,12 @@ export const getQuote = async (forcePop: boolean) => {
   const res = await superagent.put(path)
   .set('Authorization', `Bearer ${process.env.BEARER_TOKEN}`)
   .set('Accept', 'application/json')
-  .on('error', () => console.log("-> deu merda getQuote"))
-  
-    if (res.ok && res.status === code.OK) {
-        return res.body as QuoteDataModel
-    } else console.error(res.error)
-
+  .catch((err) => {
+    console.warn(`Unable to put transaction to ${path}: ${err.message}`)
     return undefined
+  })
+  
+  if (res.ok && res.status === code.OK) {
+      return res.body as QuoteDataModel
+  }
 }
